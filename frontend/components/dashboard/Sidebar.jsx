@@ -56,8 +56,8 @@ export default function Sidebar() {
         >
           <FaBars size={24} />
         </button>
-        <h1 className="text-3xl font-bold">Token</h1>
-        <p>{token}</p>
+        {/* <h1 className="text-3xl font-bold">Token</h1>
+        <p>{token}</p> */}
       </div>
     </div>
   );

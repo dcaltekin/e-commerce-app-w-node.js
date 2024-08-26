@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { useToken } from "@/context/TokenContext";
+import ProductLists from "@/components/dashboard/ProductLists";
 
 export default function Dashboard() {
   const { token } = useToken();
@@ -20,7 +21,9 @@ export default function Dashboard() {
     token && (
       <div>
         <Sidebar />
-        <div className="ml-64 p-8"></div>
+        <div className="ml-64 p-8">
+          <ProductLists />
+        </div>
       </div>
     )
   );
