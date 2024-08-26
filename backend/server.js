@@ -1,4 +1,7 @@
-const http = require('http');
+import http from 'http';
+import connectDB from './config/db.js';
+
+connectDB();
 
 const server = http.createServer((req, res) => {
 
@@ -9,7 +12,7 @@ const server = http.createServer((req, res) => {
     if (req.url === '/api/data' && req.method === 'GET') {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ message: 'Hello world' }));
+        res.end(JSON.stringify({ message: 'Hello world ' }));
     } else {
         res.statusCode = 404;
         res.end(JSON.stringify({ message: 'Route not found' }));
