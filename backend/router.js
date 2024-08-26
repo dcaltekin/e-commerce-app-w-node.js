@@ -6,7 +6,7 @@ const handleRequest = (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    if (req.url.startsWith('/api/data')) {
+    if (req.url.startsWith('/api/products')) {
         productRoutes(req, res);
     } else if (req.url.startsWith('/api/login')) {
         userRoutes(req, res);

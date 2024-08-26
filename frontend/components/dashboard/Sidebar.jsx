@@ -21,7 +21,7 @@ export default function Sidebar() {
         } lg:translate-x-0 lg:w-64 w-64 p-5`}
       >
         <div className="mb-4">
-          <h1 className="text-2xl font-semibold">My Sidebar</h1>
+          <h1 className="text-2xl font-semibold">Başlık</h1>
         </div>
         <ul>
           <li className="mb-2">
@@ -56,7 +56,7 @@ export default function Sidebar() {
         >
           <FaBars size={24} />
         </button>
-        <h1 className="text-3xl font-bold">Page Content</h1>
+        <h1 className="text-3xl font-bold">Token</h1>
         <p>{token}</p>
       </div>
     </div>
