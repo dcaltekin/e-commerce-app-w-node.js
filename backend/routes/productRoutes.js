@@ -1,4 +1,4 @@
-const handleRequest = (req, res) => {
+const productRoutes = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -13,4 +13,4 @@ const handleRequest = (req, res) => {
     }
 };
 
-export default handleRequest;
+export default productRoutes;

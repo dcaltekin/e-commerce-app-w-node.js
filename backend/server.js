@@ -1,7 +1,7 @@
 import http from 'http';
 import connectDB from './config/db.js';
-import handleRequest from './routes/productRoutes.js';
 
+import handleRequest from './router.js';
 connectDB();
 
 const server = http.createServer(handleRequest);
