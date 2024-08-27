@@ -1,5 +1,3 @@
-// components/Navbar.js
-
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 
