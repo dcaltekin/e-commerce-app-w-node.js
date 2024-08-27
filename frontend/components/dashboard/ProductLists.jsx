@@ -14,7 +14,9 @@ const ProductLists = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/products");
+        const response = await axios.get(
+          `${process.env.BASE_URL}/api/products`
+        );
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -37,7 +39,7 @@ const ProductLists = () => {
   const handleSave = async (productId) => {
     try {
       await axios.put(
-        `http://localhost:3001/api/products/${productId}`,
+        `${process.env.BASE_URL}/api/products/${productId}`,
         editedProduct,
         {
           headers: {
@@ -58,7 +60,7 @@ const ProductLists = () => {
 
   const handleDelete = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3001/api/products/${productId}`, {
+      await axios.delete(`${process.env.BASE_URL}/api/products/${productId}`, {
         headers: {
           "Content-Type": "application/json",
         },

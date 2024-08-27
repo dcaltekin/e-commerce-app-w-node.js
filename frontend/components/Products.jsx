@@ -18,7 +18,9 @@ export default function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/products");
+        const response = await axios.get(
+          `${process.env.BASE_URL}/api/products`
+        );
         setProducts(response.data);
         setFilteredProducts(response.data);
         setLoading(false);
@@ -107,7 +109,7 @@ export default function Products() {
       };
 
       const response = await axios.post(
-        "http://localhost:3001/api/orders",
+        `${process.env.BASE_URL}/api/orders`,
         orderData
       );
 

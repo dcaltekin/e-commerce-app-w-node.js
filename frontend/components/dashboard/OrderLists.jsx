@@ -7,7 +7,7 @@ const OrderLists = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/orders");
+        const response = await axios.get(`${process.env.BASE_URL}/api/orders`);
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
