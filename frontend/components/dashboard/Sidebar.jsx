@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { useToken } from "@/context/TokenContext";
+import Link from "next/link";
 
 export default function Sidebar() {
   const { logout } = useToken();
@@ -25,20 +26,20 @@ export default function Sidebar() {
         </div>
         <ul>
           <li className="mb-2">
-            <a
+            <Link
               href="/dashboard"
               className="hover:bg-gray-700 p-2 block rounded"
             >
               Ana sayfa
-            </a>
+            </Link>
           </li>
           <li className="mb-2">
-            <a
-              href="/dashboard"
+            <Link
+              href="/orders"
               className="hover:bg-gray-700 p-2 block rounded"
             >
-              Ürünler
-            </a>
+              Siparişler
+            </Link>
           </li>
           <li className="mb-2">
             <button

@@ -29,3 +29,14 @@ export const getOrderByCode = async (orderCode) => {
         throw error;
     }
 };
+
+export const getAllOrders = async () => {
+    try {
+        const collection = ordersCollection();
+        const order = await collection.find({}).toArray();
+        return order;
+    } catch (error) {
+        console.error('Error fetching order:', error);
+        throw error;
+    }
+};

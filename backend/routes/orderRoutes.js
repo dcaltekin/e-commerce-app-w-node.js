@@ -1,4 +1,4 @@
-import { handleCreateOrder, handleGetOrderByCode } from '../controllers/orderController.js';
+import { handleCreateOrder, handleGetOrderByCode, handleGetAllOrders } from '../controllers/orderController.js';
 
 const orderRoutes = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -14,6 +14,8 @@ const orderRoutes = (req, res) => {
             handleCreateOrder(req, res);
         } else if (req.method === 'GET' && orderCode) {
             handleGetOrderByCode(orderCode, res);
+        } else if (req.method === 'GET' ) {
+            handleGetAllOrders(req, res);
         } else {
             res.writeHead(405, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ message: 'Method Not Allowed' }));

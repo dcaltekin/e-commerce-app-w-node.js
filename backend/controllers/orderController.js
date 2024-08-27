@@ -1,4 +1,4 @@
-import { createOrder, getOrderByCode } from '../models/Order.js';
+import { createOrder, getOrderByCode, getAllOrders } from '../models/Order.js';
 
 export const handleCreateOrder = async (req, res) => {
     let body = '';
@@ -32,5 +32,17 @@ export const handleGetOrderByCode = async (orderCode, res) => {
     } catch (error) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ message: 'Error fetching order' }));
+    }
+};
+
+
+export const handleGetAllOrders = async (req, res) => {
+    try {
+        const orders = await getAllOrders();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(orders));
+    } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Error fetching orders' }));
     }
 };
