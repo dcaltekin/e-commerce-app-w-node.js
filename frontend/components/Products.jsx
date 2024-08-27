@@ -50,16 +50,33 @@ export default function Products() {
       const existingProductIndex = prevCart.findIndex(
         (item) => item.id === product.id
       );
+      let updatedCart;
       if (existingProductIndex === -1) {
-        return [...prevCart, { ...product, quantity: 1 }];
+        updatedCart = [...prevCart, { ...product, quantity: 1 }];
       } else {
-        const updatedCart = prevCart.map((item, index) =>
+        updatedCart = prevCart.map((item, index) =>
           index === existingProductIndex
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
-        return updatedCart;
       }
+      return updatedCart;
+    });
+  };
+
+  const removeItemFromCart = (productId) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.reduce((acc, item) => {
+        if (item.id === productId) {
+          if (item.quantity > 1) {
+            acc.push({ ...item, quantity: item.quantity - 1 });
+          }
+        } else {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
+      return updatedCart;
     });
   };
 
@@ -77,6 +94,30 @@ export default function Products() {
       return !isNaN(price) ? total + price * (item.quantity || 1) : total;
     }, 0);
     return (Math.round(total * 100) / 100).toFixed(2);
+  };
+
+  const handleCompletePurchase = async () => {
+    try {
+      const orderData = {
+        cartItems: cart,
+        totalPrice: getTotalPrice(),
+      };
+
+      const response = await axios.post(
+        "http://localhost:3001/api/orders",
+        orderData
+      );
+
+      if (response.status === 201) {
+        const orderCode = response.data.orderCode;
+        alert(`Sipariş başarıyla oluşturuldu! Sipariş kodunuz: ${orderCode}`);
+        setCart([]);
+        setShowCart(false);
+      }
+    } catch (error) {
+      console.error("Error completing purchase:", error);
+      alert("Sipariş oluşturulurken bir hata oluştu.");
+    }
   };
 
   if (loading) {
@@ -143,7 +184,10 @@ export default function Products() {
                 </p>
                 <div className="flex justify-center w-full">
                   <button
-                    onClick={() => addItemToCart(product)}
+                    onClick={() => {
+                      addItemToCart(product);
+                      setShowCart(true);
+                    }}
                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                   >
                     Sepete ekle
@@ -170,12 +214,20 @@ export default function Products() {
               {cart.length > 0 ? (
                 <>
                   <ul className="mb-4">
-                    {cart.map((item, index) => (
+                    {cart.map((item) => (
                       <li
                         key={item.id}
-                        className="py-2 border-b border-gray-200"
+                        className="py-2 border-b border-gray-200 flex justify-between items-center"
                       >
-                        {item.name} - {item.price} TL x{item.quantity}
+                        <span>
+                          {item.name} - {item.price} TL x{item.quantity}
+                        </span>
+                        <button
+                          onClick={() => removeItemFromCart(item.id)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <MdClose className="h-5 w-5" />
+                        </button>
                       </li>
                     ))}
                   </ul>
@@ -183,7 +235,10 @@ export default function Products() {
                     <span>Toplam:</span>
                     <span>{getTotalPrice()} TL</span>
                   </div>
-                  <button className="w-full inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300">
+                  <button
+                    onClick={handleCompletePurchase}
+                    className="w-full inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
+                  >
                     Alışverişi Tamamla
                   </button>
                 </>

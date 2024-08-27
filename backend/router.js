@@ -1,3 +1,4 @@
+import orderRoutes from './routes/orderRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
@@ -15,6 +16,8 @@ const handleRequest = (req, res) => {
         productRoutes(req, res);
     } else if (req.url.startsWith('/api/login') || req.url.startsWith('/api/protected')) {
         userRoutes(req, res);
+    }else if(req.url.startsWith('/api/orders')){
+        orderRoutes(req, res);
     } else {
         res.statusCode = 404;
         res.setHeader('Content-Type', 'application/json');
