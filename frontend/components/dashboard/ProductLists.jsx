@@ -36,7 +36,7 @@ const ProductLists = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Product Lists</h1>
+      <h1 className="text-2xl font-bold mb-4">Ürün Listesi</h1>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 border-collapse">
           <thead className="text-xs text-gray-700 bg-gray-50">

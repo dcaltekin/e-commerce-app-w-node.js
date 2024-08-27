@@ -1,15 +1,17 @@
 import { getProducts, getProductById, deleteProduct as deleteProductById } from '../models/Product.js'; 
 
+const handleResponse = (res, statusCode, data) => {
+    res.statusCode = statusCode;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(data));
+};
+
 export const fetchAllProducts = async (req, res) => {
     try {
         const products = await getProducts();
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(products));
+        handleResponse(res, 200, products);
     } catch (error) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ message: 'Internal Server Error' }));
+        handleResponse(res, 500, { message: 'Internal Server Error' });
     }
 };
 
@@ -18,18 +20,12 @@ export const fetchProductById = async (req, res) => {
     try {
         const product = await getProductById(id);
         if (product) {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify(product));
+            handleResponse(res, 200, product);
         } else {
-            res.statusCode = 404;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ message: 'Product not found' }));
+            handleResponse(res, 404, { message: 'Product not found' });
         }
     } catch (error) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ message: 'Internal Server Error' }));
+        handleResponse(res, 500, { message: 'Internal Server Error' });
     }
 };
 
@@ -38,17 +34,11 @@ export const deleteProduct = async (req, res) => {
     try {
         const result = await deleteProductById(id);
         if (result.deletedCount > 0) {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ message: 'Product deleted successfully' }));
+            handleResponse(res, 200, { message: 'Product deleted successfully' });
         } else {
-            res.statusCode = 404;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ message: 'Product not found' }));
+            handleResponse(res, 404, { message: 'Product not found' });
         }
     } catch (error) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ message: 'Internal Server Error' }));
+        handleResponse(res, 500, { message: 'Internal Server Error' });
     }
 };
