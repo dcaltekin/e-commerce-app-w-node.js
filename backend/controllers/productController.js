@@ -1,4 +1,4 @@
-import { getProducts, getProductById, deleteProduct as deleteProductById } from '../models/Product.js'; 
+import { getProducts, getProductById, deleteProduct as deleteProductById, updateProductById } from '../models/Product.js';
 
 const handleResponse = (res, statusCode, data) => {
     res.statusCode = statusCode;
@@ -41,4 +41,28 @@ export const deleteProduct = async (req, res) => {
     } catch (error) {
         handleResponse(res, 500, { message: 'Internal Server Error' });
     }
+};
+
+export const updateProduct = async (req, res) => {
+    const id = parseInt(req.url.split('/')[3], 10);
+    let body = '';
+
+    req.on('data', chunk => {
+        body += chunk.toString();
+    });
+
+    req.on('end', async () => {
+        try {
+            const updatedData = JSON.parse(body);
+            const updatedProduct = await updateProductById(id, updatedData);
+
+            if (updatedProduct) {
+                handleResponse(res, 200, updatedProduct);
+            } else {
+                handleResponse(res, 404, { message: 'Product not found' });
+            }
+        } catch (error) {
+            handleResponse(res, 500, { message: 'Internal Server Error' });
+        }
+    });
 };

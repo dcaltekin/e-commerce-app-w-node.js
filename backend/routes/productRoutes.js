@@ -1,4 +1,4 @@
-import { fetchAllProducts, fetchProductById, deleteProduct } from '../controllers/productController.js';
+import { fetchAllProducts, fetchProductById, deleteProduct, updateProduct } from '../controllers/productController.js';
 
 const productRoutes = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -18,6 +18,8 @@ const productRoutes = (req, res) => {
             }
         } else if (req.method === 'DELETE' && id) {
             deleteProduct(req, res);
+        } else if (req.method === 'PUT' && id) {
+            updateProduct(req, res);
         } else {
             res.statusCode = 405;
             res.setHeader('Content-Type', 'application/json');

@@ -3,6 +3,13 @@ import axios from "axios";
 
 const ProductLists = () => {
   const [products, setProducts] = useState([]);
+  const [editingProductId, setEditingProductId] = useState(null);
+  const [editedProduct, setEditedProduct] = useState({
+    name: "",
+    price: "",
+    stock: "",
+    description: "",
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -17,8 +24,36 @@ const ProductLists = () => {
     fetchProducts();
   }, []);
 
-  const handleEdit = (productId) => {
-    console.log(productId);
+  const handleEdit = (product) => {
+    setEditingProductId(product.id);
+    setEditedProduct({
+      name: product.name,
+      price: product.price,
+      stock: product.stock,
+      description: product.description,
+    });
+  };
+
+  const handleSave = async (productId) => {
+    try {
+      await axios.put(
+        `http://localhost:3001/api/products/${productId}`,
+        editedProduct,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setProducts(
+        products.map((product) =>
+          product.id === productId ? { ...product, ...editedProduct } : product
+        )
+      );
+      setEditingProductId(null);
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
   };
 
   const handleDelete = async (productId) => {
@@ -69,18 +104,89 @@ const ProductLists = () => {
               >
                 <td className="px-6 py-4">{product.id}</td>
                 <td className="px-6 py-4 font-medium text-gray-900">
-                  {product.name}
+                  {editingProductId === product.id ? (
+                    <input
+                      type="text"
+                      value={editedProduct.name}
+                      onChange={(e) =>
+                        setEditedProduct({
+                          ...editedProduct,
+                          name: e.target.value,
+                        })
+                      }
+                      className="w-full border border-gray-300 rounded-md"
+                    />
+                  ) : (
+                    product.name
+                  )}
                 </td>
-                <td className="px-6 py-4">{product.price}</td>
-                <td className="px-6 py-4">{product.stock}</td>
-                <td className="px-6 py-4">{product.description}</td>
                 <td className="px-6 py-4">
-                  <button
-                    onClick={() => handleEdit(product.id)}
-                    className="text-blue-500 hover:text-blue-700 mr-2"
-                  >
-                    Edit
-                  </button>
+                  {editingProductId === product.id ? (
+                    <input
+                      type="number"
+                      value={editedProduct.price}
+                      onChange={(e) =>
+                        setEditedProduct({
+                          ...editedProduct,
+                          price: e.target.value,
+                        })
+                      }
+                      className="w-full border border-gray-300 rounded-md"
+                    />
+                  ) : (
+                    product.price
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {editingProductId === product.id ? (
+                    <input
+                      type="number"
+                      value={editedProduct.stock}
+                      onChange={(e) =>
+                        setEditedProduct({
+                          ...editedProduct,
+                          stock: e.target.value,
+                        })
+                      }
+                      className="w-full border border-gray-300 rounded-md"
+                    />
+                  ) : (
+                    product.stock
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {editingProductId === product.id ? (
+                    <input
+                      type="text"
+                      value={editedProduct.description}
+                      onChange={(e) =>
+                        setEditedProduct({
+                          ...editedProduct,
+                          description: e.target.value,
+                        })
+                      }
+                      className="w-full border border-gray-300 rounded-md"
+                    />
+                  ) : (
+                    product.description
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {editingProductId === product.id ? (
+                    <button
+                      onClick={() => handleSave(product.id)}
+                      className="text-green-500 hover:text-green-700 mr-2"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleEdit(product)}
+                      className="text-blue-500 hover:text-blue-700 mr-2"
+                    >
+                      Edit
+                    </button>
+                  )}
                   <button
                     onClick={() => handleDelete(product.id)}
                     className="text-red-500 hover:text-red-700"

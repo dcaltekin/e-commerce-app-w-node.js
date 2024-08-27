@@ -38,7 +38,7 @@ export const getProductById = async (id) => {
     }
 };
 
-export const updateProduct = async (id, updateFields) => {
+export const updateProductById = async (id, updateFields) => {
     try {
         const collection = productsCollection();
         const result = await collection.updateOne({ id }, { $set: updateFields });

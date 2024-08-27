@@ -5,7 +5,7 @@ import { useToken } from "@/context/TokenContext";
 export default function Sidebar() {
   const { token, logout } = useToken();
   const [isOpen, setIsOpen] = useState(false);
-  console.log(token);
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
