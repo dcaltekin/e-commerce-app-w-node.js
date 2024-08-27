@@ -3,6 +3,7 @@ import Link from "next/link";
 import axios from "axios";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
+import OrderStatusPopup from "./OrderStatusPopup";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -12,6 +13,7 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [showOrderStatusPopup, setShowOrderStatusPopup] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -101,6 +103,7 @@ export default function Products() {
       const orderData = {
         cartItems: cart,
         totalPrice: getTotalPrice(),
+        status: "Hazırlanıyor...",
       };
 
       const response = await axios.post(
@@ -120,6 +123,14 @@ export default function Products() {
     }
   };
 
+  const handleOrderStatusClick = () => {
+    setShowOrderStatusPopup(true);
+  };
+
+  const handleCloseOrderStatusPopup = () => {
+    setShowOrderStatusPopup(false);
+  };
+
   if (loading) {
     return (
       <div className="container mx-auto mt-8">
@@ -133,14 +144,22 @@ export default function Products() {
       <nav className="bg-gray-800 p-4 mb-4">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-white text-xl font-bold">Ana Sayfa</h1>
-          <button onClick={toggleCart} className="relative flex items-center">
-            <FaShoppingCart className="h-6 w-6 text-white cursor-pointer" />
-            {cart.length > 0 && (
-              <button className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2 py-1">
-                {cart.length}
-              </button>
-            )}
-          </button>
+          <div className="flex gap-x-8">
+            <button
+              onClick={handleOrderStatusClick}
+              className="bg-green-500 py-2 text-white rounded-[8px] px-2"
+            >
+              Sipariş Durumunu Sorgula
+            </button>
+            <button onClick={toggleCart} className="relative flex items-center">
+              <FaShoppingCart className="h-6 w-6 text-white cursor-pointer" />
+              {cart.length > 0 && (
+                <button className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2 py-1">
+                  {cart.length}
+                </button>
+              )}
+            </button>
+          </div>
         </div>
       </nav>
       <div className="container mx-auto">
@@ -247,6 +266,9 @@ export default function Products() {
               )}
             </div>
           </div>
+        )}
+        {showOrderStatusPopup && (
+          <OrderStatusPopup onClose={handleCloseOrderStatusPopup} />
         )}
       </div>
     </div>
