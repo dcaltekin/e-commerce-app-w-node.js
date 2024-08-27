@@ -33,7 +33,7 @@ export default function Login() {
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
         <div>
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             value={username}
@@ -42,7 +42,7 @@ export default function Login() {
           />
         </div>
         <div>
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             value={password}

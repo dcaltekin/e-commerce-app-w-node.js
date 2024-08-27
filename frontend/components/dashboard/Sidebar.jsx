@@ -3,7 +3,7 @@ import { FaBars } from "react-icons/fa";
 import { useToken } from "@/context/TokenContext";
 
 export default function Sidebar() {
-  const { token, logout } = useToken();
+  const { logout } = useToken();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -33,7 +33,10 @@ export default function Sidebar() {
             </a>
           </li>
           <li className="mb-2">
-            <a href="#" className="hover:bg-gray-700 p-2 block rounded">
+            <a
+              href="/dashboard"
+              className="hover:bg-gray-700 p-2 block rounded"
+            >
               Ürünler
             </a>
           </li>
