@@ -1,6 +1,12 @@
 import { createOrder, getOrderByCode, getAllOrders, updateOrderStatus } from '../models/Order.js';
+import logger from '../config/logger.js';
 
-export async function handleCreateOrder(req, res){
+const handleResponse = (res, statusCode, data) => {
+    res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(data));
+};
+
+export async function handleCreateOrder(req, res) {
     let body = '';
     req.on('data', chunk => {
         body += chunk.toString();
@@ -10,11 +16,11 @@ export async function handleCreateOrder(req, res){
         const orderData = JSON.parse(body);
         try {
             const { orderCode } = await createOrder(orderData);
-            res.writeHead(201, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: 'Order created', orderCode }));
+            handleResponse(res, 201, { message: 'Order created', orderCode });
+            logger.info(`Sipariş oluşturuldu. Verilen kod: ${orderCode}`);
         } catch (error) {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: 'Error creating order' }));
+            logger.error(`Error creating order: ${error.message}`);
+            handleResponse(res, 500, { message: 'Error creating order' });
         }
     });
 };
@@ -25,28 +31,33 @@ export async function handleGetOrderByCode(orderCode, res){
         if (order) {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(order));
+            logger.info(`Sipariş listelendi. Kod: ${orderCode}`);
         } else {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ message: 'Order not found' }));
+            logger.warn(`Hata. ${orderCode} kod bulunamadı.`);
         }
+
     } catch (error) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ message: 'Error fetching order' }));
+        logger.error(`Hata: ${orderCode} - ${error.message}`);
     }
 };
 
-export async function handleGetAllOrders(req, res){
+
+export async function handleGetAllOrders(req, res) {
     try {
         const orders = await getAllOrders();
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(orders));
+        handleResponse(res, 200, orders);
+        logger.info(`Bütün siparişler listelendi`);
     } catch (error) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Error fetching orders' }));
+        logger.error(`Hata: ${error.message}`);
+        handleResponse(res, 500, { message: 'Error fetching orders' });
     }
 };
 
-export async function handleUpdateOrderStatus(req, res){
+export async function handleUpdateOrderStatus(req, res) {
     let body = '';
     req.on('data', chunk => {
         body += chunk.toString();
@@ -57,15 +68,15 @@ export async function handleUpdateOrderStatus(req, res){
         try {
             const result = await updateOrderStatus(orderCode, newStatus);
             if (result.modifiedCount > 0) {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Order status updated' }));
+                handleResponse(res, 200, { message: 'Order status updated' });
+                logger.info(`Durum güncellendi. orderCode: ${orderCode}`);
             } else {
-                res.writeHead(404, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Order not found' }));
+                handleResponse(res, 404, { message: 'Order not found' });
+                logger.warn(`Hata. Sipariş bulunamadı. orderCode: ${orderCode}`);
             }
         } catch (error) {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: 'Error updating order status' }));
+            logger.error(`Hata: ${orderCode} - ${error.message}`);
+            handleResponse(res, 500, { message: 'Error updating order status' });
         }
     });
 };

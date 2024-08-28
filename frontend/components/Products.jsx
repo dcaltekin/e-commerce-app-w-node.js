@@ -7,7 +7,7 @@ import OrderStatusPopup from "./OrderStatusPopup";
 import { useToken } from "@/context/TokenContext";
 
 export default function Products() {
-  const { token } = useToken();
+  const { token, logoutNoPush } = useToken();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -150,11 +150,19 @@ export default function Products() {
           <h1 className="text-white text-xl font-bold">Ana Sayfa</h1>
           <div className="flex gap-x-8">
             {token ? (
-              <Link href="/dashboard">
-                <button className="bg-red-500 py-2 text-white rounded-[8px] px-2">
-                  Yönetim Paneline Git
+              <div className="flex gap-x-2">
+                <Link href="/dashboard">
+                  <button className="bg-indigo-500 py-2 text-white rounded-[8px] px-2">
+                    Yönetim Paneline Git
+                  </button>
+                </Link>
+                <button
+                  className="bg-red-500 py-2 text-white rounded-[8px] px-2"
+                  onClick={logoutNoPush}
+                >
+                  Çıkış Yap
                 </button>
-              </Link>
+              </div>
             ) : (
               <div className="flex gap-x-2">
                 <Link href="/login">

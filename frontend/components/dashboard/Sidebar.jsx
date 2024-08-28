@@ -22,7 +22,9 @@ export default function Sidebar() {
         } lg:translate-x-0 lg:w-64 w-64 p-5`}
       >
         <div className="mb-4 flex justify-between">
-          <h1 className="text-2xl font-semibold">Başlık</h1>
+          <Link href="/" className="text-2xl font-semibold">
+            Ana sayfa
+          </Link>
           <button
             onClick={() => setIsOpen(false)}
             className="text-white lg:hidden"
@@ -36,7 +38,7 @@ export default function Sidebar() {
               href="/dashboard"
               className="hover:bg-gray-700 p-2 block rounded"
             >
-              Ana sayfa
+              Ürünler
             </Link>
           </li>
           <li className="mb-2">

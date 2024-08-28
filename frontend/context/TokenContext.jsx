@@ -12,7 +12,10 @@ export const TokenProvider = ({ children }) => {
     localStorage.removeItem("token");
     router.push("/login");
   };
-
+  const logoutNoPush = () => {
+    setToken(null);
+    localStorage.removeItem("token");
+  };
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
@@ -23,7 +26,7 @@ export const TokenProvider = ({ children }) => {
   }, []);
 
   return (
-    <TokenContext.Provider value={{ token, setToken, logout }}>
+    <TokenContext.Provider value={{ token, setToken, logout, logoutNoPush }}>
       {children}
     </TokenContext.Provider>
   );
