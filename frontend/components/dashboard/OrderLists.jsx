@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const OrderLists = () => {
+export function OrderLists() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -98,6 +98,4 @@ const OrderLists = () => {
       </div>
     </div>
   );
-};
-
-export default OrderLists;
+}

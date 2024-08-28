@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const ProductLists = () => {
+export default function ProductLists() {
   const [products, setProducts] = useState([]);
+  const [lowStockProducts, setLowStockProducts] = useState([]);
   const [editingProductId, setEditingProductId] = useState(null);
   const [editedProduct, setEditedProduct] = useState({
     name: "",
@@ -17,7 +18,13 @@ const ProductLists = () => {
         const response = await axios.get(
           `${process.env.BASE_URL}/api/products`
         );
-        setProducts(response.data);
+        const fetchedProducts = response.data;
+        const lowStock = fetchedProducts.filter(
+          (product) => product.stock < 25
+        );
+        setLowStockProducts(lowStock);
+
+        setProducts(fetchedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -73,6 +80,20 @@ const ProductLists = () => {
 
   return (
     <div>
+      {lowStockProducts.length > 0 && (
+        <div className="bg-red-100 text-red-800 p-4 mb-4 rounded">
+          <p className="font-bold mb-2">
+            Uyarı: Stok sayısı 25'ten az olan ürünler var!
+          </p>
+          <ul className="list-disc pl-5">
+            {lowStockProducts.map((product) => (
+              <li key={product.id}>
+                {product.name} - Stok: {product.stock}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <h1 className="text-2xl font-bold mb-4">Ürün Listesi</h1>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 border-collapse">
@@ -203,6 +224,4 @@ const ProductLists = () => {
       </div>
     </div>
   );
-};
-
-export default ProductLists;
+}
