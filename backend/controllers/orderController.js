@@ -1,6 +1,6 @@
 import { createOrder, getOrderByCode, getAllOrders, updateOrderStatus } from '../models/Order.js';
 
-export const handleCreateOrder = async (req, res) => {
+export async function handleCreateOrder(req, res){
     let body = '';
     req.on('data', chunk => {
         body += chunk.toString();
@@ -19,7 +19,7 @@ export const handleCreateOrder = async (req, res) => {
     });
 };
 
-export const handleGetOrderByCode = async (orderCode, res) => {
+export async function handleGetOrderByCode(orderCode, res){
     try {
         const order = await getOrderByCode(orderCode);
         if (order) {
@@ -35,7 +35,7 @@ export const handleGetOrderByCode = async (orderCode, res) => {
     }
 };
 
-export const handleGetAllOrders = async (req, res) => {
+export async function handleGetAllOrders(req, res){
     try {
         const orders = await getAllOrders();
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -46,7 +46,7 @@ export const handleGetAllOrders = async (req, res) => {
     }
 };
 
-export const handleUpdateOrderStatus = async (req, res) => {
+export async function handleUpdateOrderStatus(req, res){
     let body = '';
     req.on('data', chunk => {
         body += chunk.toString();

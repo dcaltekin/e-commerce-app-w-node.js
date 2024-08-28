@@ -1,10 +1,10 @@
-import { generateToken, authenticateToken } from '../config/auth.js';
+import { loginUser, registerUser } from '../controllers/userController.js';
 
-const userRoutes = (req, res) => {
+const userRoutes = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    
+
     if (req.method === 'OPTIONS') {
         res.writeHead(204);
         res.end();
@@ -12,22 +12,9 @@ const userRoutes = (req, res) => {
     }
 
     if (req.url === '/api/login' && req.method === 'POST') {
-        let body = '';
-        req.on('data', chunk => {
-            body += chunk.toString();
-        });
-        req.on('end', () => {
-            const { username, password } = JSON.parse(body);
-            if (username === 'admin' && password === '1234') {
-                const token = generateToken({ id: 1, username });
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({ token }));
-            } else {
-                res.statusCode = 401;
-                res.end(JSON.stringify({ message: 'Invalid username or password' }));
-            }
-        });
+        loginUser(req, res);
+    } else if (req.url === '/api/register' && req.method === 'POST') {
+        registerUser(req, res);
     } else if (req.url === '/api/protected' && req.method === 'GET') {
         authenticateToken(req, res, () => {
             res.statusCode = 200;

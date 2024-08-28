@@ -4,8 +4,10 @@ import axios from "axios";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import OrderStatusPopup from "./OrderStatusPopup";
+import { useToken } from "@/context/TokenContext";
 
 export default function Products() {
+  const { token } = useToken();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -147,6 +149,26 @@ export default function Products() {
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-white text-xl font-bold">Ana Sayfa</h1>
           <div className="flex gap-x-8">
+            {token ? (
+              <Link href="/dashboard">
+                <button className="bg-red-500 py-2 text-white rounded-[8px] px-2">
+                  Yönetim Paneline Git
+                </button>
+              </Link>
+            ) : (
+              <div className="flex gap-x-2">
+                <Link href="/login">
+                  <button className="bg-blue-500 py-2 text-white rounded-[8px] px-2">
+                    Giriş Yap
+                  </button>
+                </Link>
+                <Link href="/register">
+                  <button className="bg-blue-500 py-2 text-white rounded-[8px] px-2">
+                    Kayıt ol
+                  </button>
+                </Link>
+              </div>
+            )}
             <button
               onClick={handleOrderStatusClick}
               className="bg-green-500 py-2 text-white rounded-[8px] px-2"

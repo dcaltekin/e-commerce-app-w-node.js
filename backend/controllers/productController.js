@@ -6,7 +6,7 @@ const handleResponse = (res, statusCode, data) => {
     res.end(JSON.stringify(data));
 };
 
-export const fetchAllProducts = async (req, res) => {
+export async function fetchAllProducts(req, res) {
     try {
         const products = await getProducts();
         handleResponse(res, 200, products);
@@ -15,7 +15,7 @@ export const fetchAllProducts = async (req, res) => {
     }
 };
 
-export const fetchProductById = async (req, res) => {
+export async function fetchProductById(req, res) {
     const id = parseInt(req.url.split('/')[3], 10);
     try {
         const product = await getProductById(id);
@@ -29,7 +29,7 @@ export const fetchProductById = async (req, res) => {
     }
 };
 
-export const deleteProduct = async (req, res) => {
+export async function deleteProduct(req, res){
     const id = parseInt(req.url.split('/')[3], 10);
     try {
         const result = await deleteProductById(id);
@@ -43,7 +43,7 @@ export const deleteProduct = async (req, res) => {
     }
 };
 
-export const updateProduct = async (req, res) => {
+export async function updateProduct (req, res) {
     const id = parseInt(req.url.split('/')[3], 10);
     let body = '';
 

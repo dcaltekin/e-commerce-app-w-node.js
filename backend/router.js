@@ -14,7 +14,7 @@ const handleRequest = (req, res) => {
 
     if (req.url.startsWith('/api/products')) {
         productRoutes(req, res);
-    } else if (req.url.startsWith('/api/login') || req.url.startsWith('/api/protected')) {
+    } else if (req.url.startsWith('/api/login') || req.url.startsWith('/api/register')) {
         userRoutes(req, res);
     }else if(req.url.startsWith('/api/orders')){
         orderRoutes(req, res);

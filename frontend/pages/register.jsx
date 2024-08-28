@@ -1,31 +1,34 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useToken } from "../context/TokenContext";
 import Link from "next/link";
-
-export default function Login() {
+export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { setToken } = useToken();
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${process.env.BASE_URL}/api/login`,
+      await axios.post(
+        `${process.env.BASE_URL}/api/register`,
         { username, password },
         { headers: { "Content-Type": "application/json" } }
       );
-      const token = response.data.token;
-      setToken(token);
-      localStorage.setItem("token", token);
       setError("");
-      router.push("/");
+      setSuccess(true);
+      setTimeout(() => {
+        router.push("/login");
+      }, 3000);
     } catch (err) {
-      setError("Login failed. Please check your username and password.");
+      if (err.response && err.response.status === 409) {
+        setError("Kullanıcı zaten kayıtlı.");
+      } else {
+        setError("Başarısız");
+      }
+      setSuccess(false);
     }
   };
 
@@ -33,9 +36,9 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-sm p-6 bg-white border border-gray-300 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">
-          Giriş Yap
+          Kayıt Ol
         </h1>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleRegister}>
           <div className="mb-4">
             <label
               htmlFor="username"
@@ -72,18 +75,26 @@ export default function Login() {
             type="submit"
             className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Giriş Yap
+            Kayıt Ol
           </button>
           <div className="mt-4">
-            Üye değilsen{" "}
             <span className="underline text-blue-500">
-              <Link href="/register">Kayıt ol</Link>
+              <Link href="/login">Giriş yap</Link>
             </span>
           </div>
           {error && (
             <p className="mt-4 text-red-600 text-sm text-center">{error}</p>
           )}
         </form>
+        {success && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+            <div className="bg-white p-6 rounded-md shadow-lg">
+              <p className="text-green-600 text-lg text-center">
+                Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
