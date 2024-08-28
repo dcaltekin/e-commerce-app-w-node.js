@@ -23,7 +23,10 @@ export default function Sidebar() {
       >
         <div className="mb-4 flex justify-between">
           <h1 className="text-2xl font-semibold">Başlık</h1>
-          <button onClick={() => setIsOpen(false)} className="text-white">
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-white lg:hidden"
+          >
             X
           </button>
         </div>
