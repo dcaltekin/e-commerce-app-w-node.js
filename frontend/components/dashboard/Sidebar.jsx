@@ -17,12 +17,15 @@ export default function Sidebar() {
   return (
     <div className="flex">
       <div
-        className={`fixed top-0 left-0 h-full bg-gray-800 text-white transition-transform transform ${
+        className={`fixed top-0 left-0 h-full z-50 bg-gray-800 text-white transition-transform transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 lg:w-64 w-64 p-5`}
       >
-        <div className="mb-4">
+        <div className="mb-4 flex justify-between">
           <h1 className="text-2xl font-semibold">Başlık</h1>
+          <button onClick={() => setIsOpen(false)} className="text-white">
+            X
+          </button>
         </div>
         <ul>
           <li className="mb-2">
@@ -41,11 +44,10 @@ export default function Sidebar() {
               Siparişler
             </Link>
           </li>
-          <li className="mb-2">
+          <li className="mb-2 ">
             <button
               onClick={handleLogout}
-              href="#"
-              className="hover:bg-gray-700 p-2 block rounded"
+              className="hover:bg-gray-700 p-2 rounded block w-full text-start"
             >
               Çıkış Yap
             </button>

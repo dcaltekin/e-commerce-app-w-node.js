@@ -23,6 +23,24 @@ const OrderLists = () => {
       .join(", ");
   };
 
+  const handleStatusChange = async (orderCode, newStatus) => {
+    try {
+      await axios.put(`${process.env.BASE_URL}/api/orders/status`, {
+        orderCode,
+        newStatus,
+      });
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.orderCode === orderCode
+            ? { ...order, status: newStatus }
+            : order
+        )
+      );
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Sipariş Listesi</h1>
@@ -42,12 +60,15 @@ const OrderLists = () => {
               <th scope="col" className="px-6 py-3 border-b">
                 Sepet İçeriği
               </th>
+              <th scope="col" className="px-6 py-3 border-b">
+                Eylem
+              </th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
               <tr
-                key={order.id}
+                key={order.orderCode}
                 className="odd:bg-white even:bg-gray-50 border-b"
               >
                 <td className="px-6 py-4">{order.orderCode}</td>
@@ -55,6 +76,20 @@ const OrderLists = () => {
                 <td className="px-6 py-4">{order.status}</td>
                 <td className="px-6 py-4">
                   {formatCartItems(order.cartItems)}
+                </td>
+                <td className="px-6 py-4">
+                  <select
+                    value={order.status}
+                    onChange={(e) =>
+                      handleStatusChange(order.orderCode, e.target.value)
+                    }
+                    className="border border-gray-300 rounded px-2 py-1"
+                  >
+                    <option value="Hazırlanıyor...">Hazırlanıyor...</option>
+                    <option value="Kargoya verildi.">Kargoya verildi.</option>
+                    <option value="Yolda.">Yolda.</option>
+                    <option value="Teslim edildi.">Teslim edildi.</option>
+                  </select>
                 </td>
               </tr>
             ))}

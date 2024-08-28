@@ -1,4 +1,4 @@
-import { handleCreateOrder, handleGetOrderByCode, handleGetAllOrders } from '../controllers/orderController.js';
+import { handleCreateOrder, handleGetOrderByCode, handleGetAllOrders, handleUpdateOrderStatus } from '../controllers/orderController.js';
 
 const orderRoutes = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -16,7 +16,9 @@ const orderRoutes = (req, res) => {
             handleGetOrderByCode(orderCode, res);
         } else if (req.method === 'GET' ) {
             handleGetAllOrders(req, res);
-        } else {
+        } else if (req.url === '/api/orders/status' && req.method === 'PUT') {
+            handleUpdateOrderStatus(req, res);
+        }  else {
             res.writeHead(405, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ message: 'Method Not Allowed' }));
         }

@@ -1,5 +1,6 @@
 import { getDB } from '../config/db.js';
 import { v4 as uuidv4 } from 'uuid';
+import orderEmitter from '../events/orderEvents.js'; 
 
 const ordersCollection = () => {
     const db = getDB();
@@ -33,10 +34,27 @@ export const getOrderByCode = async (orderCode) => {
 export const getAllOrders = async () => {
     try {
         const collection = ordersCollection();
-        const order = await collection.find({}).toArray();
-        return order;
+        const orders = await collection.find({}).toArray();
+        return orders;
     } catch (error) {
-        console.error('Error fetching order:', error);
+        console.error('Error fetching orders:', error);
+        throw error;
+    }
+};
+
+export const updateOrderStatus = async (orderCode, newStatus) => {
+    try {
+        const collection = ordersCollection();
+        const result = await collection.updateOne(
+            { orderCode },
+            { $set: { status: newStatus } }
+        );
+        if (result.modifiedCount > 0) {
+            orderEmitter.emit('orderStatusUpdated', orderCode, newStatus);
+        }
+        return result;
+    } catch (error) {
+        console.error('Error updating order status:', error);
         throw error;
     }
 };

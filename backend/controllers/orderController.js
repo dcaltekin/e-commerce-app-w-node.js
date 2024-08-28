@@ -1,4 +1,4 @@
-import { createOrder, getOrderByCode, getAllOrders } from '../models/Order.js';
+import { createOrder, getOrderByCode, getAllOrders, updateOrderStatus } from '../models/Order.js';
 
 export const handleCreateOrder = async (req, res) => {
     let body = '';
@@ -35,7 +35,6 @@ export const handleGetOrderByCode = async (orderCode, res) => {
     }
 };
 
-
 export const handleGetAllOrders = async (req, res) => {
     try {
         const orders = await getAllOrders();
@@ -45,4 +44,28 @@ export const handleGetAllOrders = async (req, res) => {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ message: 'Error fetching orders' }));
     }
+};
+
+export const handleUpdateOrderStatus = async (req, res) => {
+    let body = '';
+    req.on('data', chunk => {
+        body += chunk.toString();
+    });
+
+    req.on('end', async () => {
+        const { orderCode, newStatus } = JSON.parse(body);
+        try {
+            const result = await updateOrderStatus(orderCode, newStatus);
+            if (result.modifiedCount > 0) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Order status updated' }));
+            } else {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Order not found' }));
+            }
+        } catch (error) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'Error updating order status' }));
+        }
+    });
 };

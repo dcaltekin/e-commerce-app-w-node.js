@@ -21,7 +21,7 @@ export default function Dashboard() {
     token && (
       <div>
         <Sidebar />
-        <div className="ml-64 p-8">
+        <div className="lg:ml-64 p-8">
           <ProductLists />
         </div>
       </div>
