@@ -8,10 +8,7 @@ let dbClient;
 
 export const connectDB = async () => {
     try {
-        dbClient = new MongoClient(dbURL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        dbClient = new MongoClient(dbURL);
         await dbClient.connect();
         console.log('MongoDB connected successfully');
         return dbClient.db(); 

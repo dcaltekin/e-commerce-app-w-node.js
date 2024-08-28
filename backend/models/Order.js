@@ -1,18 +1,37 @@
 import { getDB } from '../config/db.js';
 import { v4 as uuidv4 } from 'uuid';
 import orderEmitter from '../events/orderEvents.js'; 
+import { ObjectId } from 'mongodb';
 
 const ordersCollection = () => {
     const db = getDB();
     return db.collection('orders');
 };
+const productsCollection = () => {
+    const db = getDB();
+    return db.collection('products');
+};
+
 
 export const createOrder = async (order) => {
+    const collection = ordersCollection();
+    const products = productsCollection();
+
+    const orderCode = uuidv4();
+    const newOrder = { ...order, orderCode };
+
     try {
-        const collection = ordersCollection();
-        const orderCode = uuidv4();
-        const newOrder = { ...order, orderCode };
         const result = await collection.insertOne(newOrder);
+        const updatePromises = order.cartItems.map((item) => {
+            const productId = typeof item._id === 'string' ? item._id : item._id.toString();
+            return products.updateOne(
+                { _id: new ObjectId(productId) },
+                { $inc: { stock: -item.quantity } } 
+            );
+        });
+
+        await Promise.all(updatePromises);
+
         return { result, orderCode };
     } catch (error) {
         console.error('Error creating order:', error);
