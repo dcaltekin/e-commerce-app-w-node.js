@@ -43,6 +43,14 @@ export default function Sidebar() {
           </li>
           <li className="mb-2">
             <Link
+              href="/top-selling"
+              className="hover:bg-gray-700 p-2 block rounded"
+            >
+              En Çok Satan Ürünler
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link
               href="/orders"
               className="hover:bg-gray-700 p-2 block rounded"
             >

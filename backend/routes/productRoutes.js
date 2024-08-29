@@ -1,4 +1,4 @@
-import { fetchAllProducts, fetchProductById, deleteProduct, updateProduct } from '../controllers/productController.js';
+import { fetchAllProducts, fetchProductById, deleteProduct, updateProduct,  } from '../controllers/productController.js';
 
 const productRoutes = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,7 +20,7 @@ const productRoutes = (req, res) => {
             deleteProduct(req, res);
         } else if (req.method === 'PUT' && id) {
             updateProduct(req, res);
-        } else {
+        }  else {
             res.statusCode = 405;
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ message: 'Method Not Allowed' }));

@@ -5,6 +5,11 @@ const productsCollection = () => {
     return db.collection('products');
 };
 
+const ordersCollection = () => {
+    const db = getDB();
+    return db.collection('orders');
+};
+
 
 export const createProduct = async (product) => {
     try {

@@ -1,7 +1,7 @@
 import orderRoutes from './routes/orderRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-
+import topSellingRoutes from './routes/topSellingRoutes.js';
 
 const handleRequest = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,6 +19,8 @@ const handleRequest = (req, res) => {
         userRoutes(req, res);
     } else if(req.url.startsWith('/api/orders')){
         orderRoutes(req, res);
+    } else if(req.url.startsWith('/api/top-selling')){
+        topSellingRoutes(req, res);
     } else {
         res.statusCode = 404;
         res.setHeader('Content-Type', 'application/json');
