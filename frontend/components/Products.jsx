@@ -5,8 +5,15 @@ import { FaShoppingCart } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import OrderStatusPopup from "./OrderStatusPopup";
 import { useToken } from "@/context/TokenContext";
+import { useTranslation } from "react-i18next";
+import { MdLanguage } from "react-icons/md";
 
 export default function Products() {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
   const { token, logoutNoPush } = useToken();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -147,32 +154,50 @@ export default function Products() {
     <div className="">
       <nav className="bg-gray-800 p-4 mb-4">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-white text-xl font-bold">Ana Sayfa</h1>
+          <h1 className="text-white text-xl font-bold">{t("homepage")}</h1>
+
           <div className="flex gap-x-8">
+            <div className="flex gap-x-8 items-center text-white">
+              <button
+                onClick={() => changeLanguage("en")}
+                className="flex items-center"
+              >
+                <MdLanguage color="white" />
+                English
+              </button>
+              <button
+                onClick={() => changeLanguage("tr")}
+                className="flex items-center"
+              >
+                <MdLanguage color="white" />
+                Türkçe
+              </button>
+            </div>
+
             {token ? (
               <div className="flex gap-x-2">
                 <Link href="/dashboard">
                   <button className="bg-indigo-500 py-2 text-white rounded-[8px] px-2">
-                    Yönetim Paneline Git
+                    {t("goToDashboard")}
                   </button>
                 </Link>
                 <button
                   className="bg-red-500 py-2 text-white rounded-[8px] px-2"
                   onClick={logoutNoPush}
                 >
-                  Çıkış Yap
+                  {t("logout")}
                 </button>
               </div>
             ) : (
               <div className="flex gap-x-2">
                 <Link href="/login">
                   <button className="bg-blue-500 py-2 text-white rounded-[8px] px-2">
-                    Giriş Yap
+                    {t("login")}
                   </button>
                 </Link>
                 <Link href="/register">
                   <button className="bg-blue-500 py-2 text-white rounded-[8px] px-2">
-                    Kayıt ol
+                    {t("register")}
                   </button>
                 </Link>
               </div>
@@ -181,7 +206,7 @@ export default function Products() {
               onClick={handleOrderStatusClick}
               className="bg-green-500 py-2 text-white rounded-[8px] px-2"
             >
-              Sipariş Durumunu Sorgula
+              {t("orderStatus")}
             </button>
             <button onClick={toggleCart} className="relative flex items-center">
               <FaShoppingCart className="h-6 w-6 text-white cursor-pointer" />
@@ -198,7 +223,7 @@ export default function Products() {
         <div className="mb-4 flex flex-col gap-4">
           <input
             type="text"
-            placeholder="Ürün ara..."
+            placeholder={t("searchProduct")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-lg"
@@ -209,9 +234,9 @@ export default function Products() {
               onChange={(e) => setSortOrder(e.target.value)}
               className="w-48 p-2 border border-gray-300 rounded-lg"
             >
-              <option value="default">Sıralama</option>
-              <option value="priceAsc">En Ucuzdan En Pahalıya</option>
-              <option value="priceDesc">En Pahalıdan En Ucuza</option>
+              <option value="default">{t("sorting")}</option>
+              <option value="priceAsc">{t("cheapestToMostExpensive")}</option>
+              <option value="priceDesc">{t("expensiveToCheapest")}</option>
             </select>
           </div>
         </div>
@@ -241,14 +266,14 @@ export default function Products() {
                     }}
                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                   >
-                    Sepete ekle
+                    {t("addToBasket")}
                   </button>
                 </div>
               </div>
             ))
           ) : (
             <p className="col-span-full text-center text-gray-500">
-              Ürün bulunamadı.
+              {t("productNotFound")}
             </p>
           )}
         </div>
@@ -261,7 +286,7 @@ export default function Products() {
               >
                 <MdClose className="h-6 w-6" />
               </button>
-              <h2 className="text-2xl mb-4">Sepet</h2>
+              <h2 className="text-2xl mb-4">{t("basket")}</h2>
               {cart.length > 0 ? (
                 <>
                   <ul className="mb-4">
@@ -283,18 +308,20 @@ export default function Products() {
                     ))}
                   </ul>
                   <div className="flex justify-between items-center mb-4 font-bold">
-                    <span>Toplam:</span>
+                    <span>{t("total")}:</span>
                     <span>{getTotalPrice()} TL</span>
                   </div>
                   <button
                     onClick={handleCompletePurchase}
                     className="w-full inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300"
                   >
-                    Alışverişi Tamamla
+                    {t("completeThePurchase")}
                   </button>
                 </>
               ) : (
-                <p className="text-center text-gray-500 py-4">Sepet boş.</p>
+                <p className="text-center text-gray-500 py-4">
+                  {t("emptyBasket")}
+                </p>
               )}
             </div>
           </div>

@@ -1,0 +1,18 @@
+{
+    "homepage": "Home Page",
+    "goToDashboard": "Go to Dashboard",
+    "logout": "Logout",
+    "orderStatus": "Check Order Status",
+    "searchProduct": "Search Product",
+    "sorting": "Sorting",
+    "expensiveToCheapest": "From Most Expensive to Cheapest",
+    "cheapestToMostExpensive": "From Cheapest to Most Expensive",
+    "addToBasket": "Add to Basket",
+    "login": "Login",
+    "register": "Register",
+    "productNotFound": "Product Not Found.",
+    "basket": "Basket",
+    "total": "Total",
+    "completeThePurchase": "Complete the Purchase",
+    "emptyBasket": "Basket is empty."
+}

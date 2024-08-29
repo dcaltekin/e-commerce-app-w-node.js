@@ -2,6 +2,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
+
 const handleRequest = (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -16,7 +17,7 @@ const handleRequest = (req, res) => {
         productRoutes(req, res);
     } else if (req.url.startsWith('/api/login') || req.url.startsWith('/api/register')) {
         userRoutes(req, res);
-    }else if(req.url.startsWith('/api/orders')){
+    } else if(req.url.startsWith('/api/orders')){
         orderRoutes(req, res);
     } else {
         res.statusCode = 404;

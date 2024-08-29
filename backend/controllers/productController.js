@@ -1,4 +1,4 @@
-import { getProducts, getProductById, deleteProduct as deleteProductById, updateProductById } from '../models/Product.js';
+import { getProducts, getProductById, deleteProduct as deleteProductById, updateProductById  } from '../models/Product.js';
 import logger from '../config/logger.js';
 
 

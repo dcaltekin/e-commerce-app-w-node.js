@@ -5,6 +5,7 @@ const productsCollection = () => {
     return db.collection('products');
 };
 
+
 export const createProduct = async (product) => {
     try {
         const collection = productsCollection();
@@ -59,3 +60,5 @@ export const deleteProduct = async (id) => {
         throw error;
     }
 };
+
+

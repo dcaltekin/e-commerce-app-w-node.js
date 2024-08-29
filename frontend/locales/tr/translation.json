@@ -1,0 +1,18 @@
+{
+  "homepage": "Ana Sayfa",
+  "goToDashboard": "Yönetim Paneline Git",
+  "logout": "Çıkış Yap",
+  "orderStatus": "Sipariş Durumunu Sorgula",
+  "searchProduct": "Ürün Ara",
+  "sorting": "Sıralama",
+  "expensiveToCheapest": "En pahalıdan en ucuza",
+  "cheapestToMostExpensive": "En ucuzdan en pahalıya",
+  "addToBasket": "Sepete Ekle",
+  "login": "Giriş Yap",
+  "register": "Kayıt Ol",
+  "productNotFound": "Ürün Bulunamadı.",
+  "basket": "Sepet",
+  "total": "Toplam",
+  "completeThePurchase": "Alışverişi tamamla",
+  "emptyBasket": "Sepet boş."
+}
