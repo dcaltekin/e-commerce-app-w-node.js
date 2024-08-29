@@ -1,10 +1,6 @@
 import { fetchAllProducts, fetchProductById, deleteProduct, updateProduct,  } from '../controllers/productController.js';
 
 const productRoutes = (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
     const urlParts = req.url.split('/');
     const resource = urlParts[2];
     const id = urlParts[3];

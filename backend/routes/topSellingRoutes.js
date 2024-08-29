@@ -1,22 +1,18 @@
 import { handleGetTopSellingProducts } from '../controllers/topSellingControllers.js';
+import { authenticateToken } from '../config/auth.js';
 
 const topSellingRoutes = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-    if (req.method === 'OPTIONS') {
-        res.writeHead(204);
-        res.end();
-        return;
-    }
 
     if (req.url === '/api/top-selling' && req.method === 'GET') {
-        handleGetTopSellingProducts(req, res);
+        authenticateToken(req, res, async () => {
+            await handleGetTopSellingProducts(req, res);
+        });
     } else {
         res.statusCode = 404;
+        res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ message: 'Route not found' }));
     }
 };
+
 
 export default topSellingRoutes;

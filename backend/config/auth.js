@@ -23,11 +23,22 @@ export const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader ? authHeader.split(' ')[1] : null;
 
-    if (token == null) return res.sendStatus(401);
+    if (token == null) {
+        res.statusCode = 401;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ message: 'Unauthorized' }));
+        return;
+    }
 
     jwt.verify(token, SECRET_KEY, (err, user) => {
-        if (err) return res.sendStatus(403);
+        if (err) {
+            res.statusCode = 403;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ message: 'Forbidden' }));
+            return;
+        }
         req.user = user;
         next();
     });
 };
+

@@ -9,7 +9,12 @@ export default function TopSellingProducts() {
     const fetchTopSellingProducts = async () => {
       try {
         const response = await axios.get(
-          `${process.env.BASE_URL}/api/top-selling`
+          `${process.env.BASE_URL}/api/top-selling`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         setProducts(response.data);
       } catch (error) {

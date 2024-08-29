@@ -1,10 +1,6 @@
 import { handleCreateOrder, handleGetOrderByCode, handleGetAllOrders, handleUpdateOrderStatus } from '../controllers/orderController.js';
 
 const orderRoutes = (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
     const urlParts = req.url.split('/');
     const resource = urlParts[2];
     const orderCode = urlParts[3];
