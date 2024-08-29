@@ -151,7 +151,7 @@ export default function Products() {
   }
 
   return (
-    <div className="">
+    <div className="mb-16">
       <nav className="bg-gray-800 p-4 mb-4">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-white text-xl font-bold">{t("homepage")}</h1>
