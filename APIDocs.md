@@ -24,7 +24,7 @@ API için, bazı kritik isteklerde kimlik doğrulaması yapılması gerekir. API
 
 **Başarı Durumu**:
 
-- **Kod**: 200 OK
+- **Kod**: 201 CREATED
 - **Yanıt**:
 
 ```json
@@ -188,7 +188,7 @@ API için, bazı kritik isteklerde kimlik doğrulaması yapılması gerekir. API
 
 **Başarı Durumu**:
 
-- **Kod**: 200 OK
+- **Kod**: 201 CREATED
 - **Yanıt**:
 
 ```json
