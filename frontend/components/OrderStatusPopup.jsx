@@ -10,7 +10,7 @@ export default function OrderStatusPopup({ onClose }) {
   const handleCheckStatus = async () => {
     try {
       const response = await axios.get(
-        `${process.env.BASE_URL}/api/orders/${orderCode}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/orders/${orderCode}`
       );
       setOrderDetails(response.data);
       setError("");

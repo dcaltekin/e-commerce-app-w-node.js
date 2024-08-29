@@ -28,7 +28,7 @@ export default function Products() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `${process.env.BASE_URL}/api/products`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/products`
         );
         setProducts(response.data);
         setFilteredProducts(response.data);
@@ -118,7 +118,7 @@ export default function Products() {
       };
 
       const response = await axios.post(
-        `${process.env.BASE_URL}/api/orders`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/orders`,
         orderData
       );
 

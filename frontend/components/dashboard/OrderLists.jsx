@@ -9,11 +9,14 @@ export default function OrderLists() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`${process.env.BASE_URL}/api/orders`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/orders`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -32,7 +35,7 @@ export default function OrderLists() {
   const handleStatusChange = async (orderCode, newStatus) => {
     try {
       await axios.put(
-        `${process.env.BASE_URL}/api/orders/status`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/orders/status`,
         {
           orderCode,
           newStatus,

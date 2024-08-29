@@ -10,7 +10,7 @@ export default function TopSellingProducts() {
     const fetchTopSellingProducts = async () => {
       try {
         const response = await axios.get(
-          `${process.env.BASE_URL}/api/top-selling`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/top-selling`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

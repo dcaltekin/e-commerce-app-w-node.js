@@ -13,7 +13,7 @@ export default function Register() {
     e.preventDefault();
     try {
       await axios.post(
-        `${process.env.BASE_URL}/api/register`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/register`,
         { username, password },
         { headers: { "Content-Type": "application/json" } }
       );

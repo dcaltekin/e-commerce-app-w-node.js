@@ -16,7 +16,7 @@ export default function ProductLists() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `${process.env.BASE_URL}/api/products`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/products`
         );
         const fetchedProducts = response.data;
         const lowStock = fetchedProducts.filter(
@@ -46,7 +46,7 @@ export default function ProductLists() {
   const handleSave = async (productId) => {
     try {
       await axios.put(
-        `${process.env.BASE_URL}/api/products/${productId}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${productId}`,
         editedProduct,
         {
           headers: {
@@ -67,11 +67,14 @@ export default function ProductLists() {
 
   const handleDelete = async (productId) => {
     try {
-      await axios.delete(`${process.env.BASE_URL}/api/products/${productId}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${productId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setProducts(products.filter((product) => product.id !== productId));
     } catch (error) {
       console.error("Error deleting product:", error);
