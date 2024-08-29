@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useToken } from "@/context/TokenContext";
 export default function TopSellingProducts() {
+  const { token } = useToken();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,7 +13,7 @@ export default function TopSellingProducts() {
           `${process.env.BASE_URL}/api/top-selling`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useToken } from "@/context/TokenContext";
 
 export default function OrderLists() {
+  const { token } = useToken();
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`${process.env.BASE_URL}/api/orders`);
+        const response = await axios.get(`${process.env.BASE_URL}/api/orders`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -25,10 +31,18 @@ export default function OrderLists() {
 
   const handleStatusChange = async (orderCode, newStatus) => {
     try {
-      await axios.put(`${process.env.BASE_URL}/api/orders/status`, {
-        orderCode,
-        newStatus,
-      });
+      await axios.put(
+        `${process.env.BASE_URL}/api/orders/status`,
+        {
+          orderCode,
+          newStatus,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.orderCode === orderCode
