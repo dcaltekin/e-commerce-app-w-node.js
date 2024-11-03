@@ -35,7 +35,7 @@ npm install
 Daha sonra çevre değişkenlerini belirlemek için backend klasöründeki ana dizinde .env dosyası oluşturun ve içini şu şekilde doldurun:
 
 ```bash
-MONGODB_URL=mongodb+srv://dcaltekin:T6aLCAN9H57CsnH7@cluster0.u3la1.mongodb.net/e-commerce-app?retryWrites=true&w=majority
+MONGODB_URL= ---------
 SECRET_KEY=b2f53c574c2ba27392697da287afdd9401b703e10acac470828bc86a9d92144e
 PORT=3001
 ```
